@@ -88,21 +88,38 @@ var spotifySearch = function(songName) {
       console.log(data);
   
       var dataArr = data.split(",");
-  
-      if (dataArr.length === 2) {
-        spotifySearch(dataArr[1]);
-      } else if (dataArr.length === 1) {
-        spotifySearch(dataArr[0]);
-      }
-    });
-  };
 
-if (process.argv[2] == "concert-this"){
-concertSearch("circa survive");
-} else if (process.argv[2] == "spotify-this-song"){
-spotifySearch("Everyway");
-} else if (process.argv[2] == "movie-this"){
-    movieSearch("Inception");
-} else if (process.argv[2] == "do-what-it-says"){
+    if (dataArr.length === 2) {
+      functionChooser(dataArr[0], dataArr[1]);
+    } else if (dataArr.length === 1) {
+      functionChooser(dataArr[0]);
+    }
+  });
+};
+
+
+var functionChooser = function(commandType, functionSearch) {
+  switch (commandType) {
+  case "concert-this":
+    concertSearch(functionSearch);
+    break;
+  case "spotify-this-song":
+    spotifySearch(functionSearch);
+    break;
+  case "movie-this":
+    movieSearch(functionSearch);
+    break;
+  case "do-what-it-says":
     justDoIt();
-} 
+    break;
+  default:
+    console.log("Uh oh try again with one of these commands concert-this, spotify-this-song, movie-this. do-what-it-says");
+  }
+};
+
+
+var liriStart = function(liriCommand, userSearch) {
+  functionChooser(liriCommand, userSearch);
+};
+
+liriStart(process.argv[2], process.argv.slice(3).join(" "));
