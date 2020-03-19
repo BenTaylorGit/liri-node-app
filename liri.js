@@ -7,7 +7,7 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 
-var concertForBand = function(artist) {
+var concertSearch = function(artist) {
   var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
   axios.get(queryURL).then(
@@ -58,8 +58,35 @@ var spotifySearch = function(songName) {
     );
   };
 
+  var movieSearch = function(movieName) {
+    if (movieName === undefined) {
+      movieName = "Mr Nobody";
+    }
+  
+    var queryURL = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=trilogy";
+  
+    axios.get(queryURL).then(
+      function(response) {
+        var axiosData = response.data;
+  
+        console.log("Title: " + axiosData.Title);
+        console.log("Year: " + axiosData.Year);
+        console.log("IMDB Rating: " + axiosData.imdbRating);
+        console.log("Rotten Tomatoes Rating: " + axiosData.Ratings[1].Value);
+        console.log("Country: " + axiosData.Country);
+        console.log("Language: " + axiosData.Language);
+        console.log("Plot: " + axiosData.Plot);
+        console.log("Actors: " + axiosData.Actors);
+        
+      }
+    );
+  };
+
+
 if (process.argv[2] == "concert-this"){
-concertForBand("circa survive");
+concertSearch("circa survive");
 } else if (process.argv[2] == "spotify-this-song"){
-spotifySearch("Everyway")
+spotifySearch("Everyway");
+} else if (process.argv[2] == "movie-this"){
+    movieSearch("Inception");
 }
