@@ -83,10 +83,26 @@ var spotifySearch = function(songName) {
   };
 
 
+  var justDoIt = function() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+      console.log(data);
+  
+      var dataArr = data.split(",");
+  
+      if (dataArr.length === 2) {
+        spotifySearch(dataArr[1]);
+      } else if (dataArr.length === 1) {
+        spotifySearch(dataArr[0]);
+      }
+    });
+  };
+
 if (process.argv[2] == "concert-this"){
 concertSearch("circa survive");
 } else if (process.argv[2] == "spotify-this-song"){
 spotifySearch("Everyway");
 } else if (process.argv[2] == "movie-this"){
     movieSearch("Inception");
-}
+} else if (process.argv[2] == "do-what-it-says"){
+    justDoIt();
+} 
